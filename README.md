@@ -80,7 +80,7 @@ or advice or contact the author directly!
 
 `tube` can be configured to suit your particular needs and comes by default with
 a sensbile set of defaults. There is also a default configuration at the
-top-level [config.json](/config.json) that you can use as a start point and
+top-level [config.json](config.json) that you can use as a start point and
 modify to suite your needs.
 
 To Run `tube` with a provided configuration just pass the `-c /path/to/config`
@@ -92,7 +92,7 @@ $ tube -c config.json
 
 Everything in the configuration is optional as the builtin defaults are used
 if you do not supply anything, omit some sections or values or the configuration
-is invalid. Refer to the [default config.json](/config.json) for the builtin
+is invalid. Refer to the [default config.json](config.json) for the builtin
 defaults (_this files matches the builtin defaults_).
 
 Here are some documentation on key configuration items:
@@ -230,7 +230,7 @@ Thank you to all those that have contributed to this project, battle-tested it,
 used it in their own projects or products, fixed bugs, improved performance
 and even fix tiny typos in documentation! Thank you and keep contributing!
 
-You can find an [AUTHORS](/AUTHORS) file where we keep a list of contributors
+You can find an [AUTHORS](AUTHORS) file where we keep a list of contributors
 to the project. If you contriibute a PR please consider adding your name there.
 There is also Github's own [Contributors](https://git.mills.io/prologic/tube/graphs/contributors) statistics.
 
@@ -241,7 +241,7 @@ There is also Github's own [Contributors](https://git.mills.io/prologic/tube/gra
 
 ## License
 
-tube source code is available under the MIT [License](/LICENSE).
+tube source code is available under the MIT [License](LICENSE).
 
 Previously based off of [tube](https://github.com/wybiral/tube) by [davy wybiral
-](https://github.com/wybiral). (See [LICENSE.old](/LICENSE.old))
+](https://github.com/wybiral). (See [LICENSE.old](LICENSE.old))
