@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/prologic/tube/app"
+	"git.mills.io/prologic/tube/app"
 	log "github.com/sirupsen/logrus"
 	flag "github.com/spf13/pflag"
 )

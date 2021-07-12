@@ -2,7 +2,7 @@
 builds:
   -
     flags: -tags "static_build"
-    ldflags: -w -X github.com/prologic/tube/.Version={{.Version}} -X github.com/prologic/tube/.Commit={{.Commit}}
+    ldflags: -w -X git.mills.io/prologic/tube/.Version={{.Version}} -X git.mills.io/prologic/tube/.Commit={{.Commit}}
     env:
       - CGO_ENABLED=0
     goos:

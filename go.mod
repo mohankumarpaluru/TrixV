@@ -1,4 +1,4 @@
-module github.com/prologic/tube
+module git.mills.io/prologic/tube
 
 go 1.16
 
@@ -11,8 +11,8 @@ require (
 	github.com/gorilla/handlers v1.5.1
 	github.com/gorilla/mux v1.8.0
 	github.com/lithammer/shortuuid/v3 v3.0.7
-	github.com/prologic/bitcask v0.3.10
-	github.com/prologic/vimeodl v0.0.0-20200328030915-d2b0e6272c23
+	git.mills.io/prologic/bitcask v0.3.10
+	git.mills.io/prologic/vimeodl v0.0.0-20200328030915-d2b0e6272c23
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/pflag v1.0.5
 	github.com/wybiral/feeds v1.1.1

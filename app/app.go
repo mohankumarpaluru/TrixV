@@ -20,9 +20,9 @@ import (
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	shortuuid "github.com/lithammer/shortuuid/v3"
-	"github.com/prologic/tube/importers"
-	"github.com/prologic/tube/media"
-	"github.com/prologic/tube/utils"
+	"git.mills.io/prologic/tube/importers"
+	"git.mills.io/prologic/tube/media"
+	"git.mills.io/prologic/tube/utils"
 	log "github.com/sirupsen/logrus"
 )
 

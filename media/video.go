@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/dhowden/tag"
-	"github.com/prologic/tube/utils"
+	"git.mills.io/prologic/tube/utils"
 )
 
 // Video represents metadata for a single video.

@@ -36,7 +36,7 @@ Open http://127.0.0.1:8000/ in your Browser!
 ### Using a Binary
 
 1. Go grab the latest binary from the
-   [Releases](https://github.com/prologic/tube/releases) page for your
+   [Releases](https://git.mills.io/prologic/tube/releases) page for your
    platform / operating system.
 2. Extract the archive.
 3. Run `./tube`
@@ -57,7 +57,7 @@ Where `DOCKER_MACHINE_IP` is the IP Address of your Docker Node.
 ### From Source
 
 ```#!sh
-$ git clone https://github.com/prologic/tube
+$ git clone https://git.mills.io/prologic/tube
 $ cd tube
 $ make
 $ ./tube
@@ -73,7 +73,7 @@ similiar to the one you can find in the repo: [docker-compose.yml](docker-compos
 
 Beyond this a "Production Deployment" is out-of-scope at this time for the
 documentation being provided here. Please don't hesitate to file an
-[Issue](https://github.com/prologic/tube/issues/new) however for ask for help
+[Issue](https://git.mills.io/prologic/tube/issues/new) however for ask for help
 or advice or contact the author directly!
 
 ## Configuration
@@ -232,7 +232,7 @@ and even fix tiny typos in documentation! Thank you and keep contributing!
 
 You can find an [AUTHORS](/AUTHORS) file where we keep a list of contributors
 to the project. If you contriibute a PR please consider adding your name there.
-There is also Github's own [Contributors](https://github.com/prologic/tube/graphs/contributors) statistics.
+There is also Github's own [Contributors](https://git.mills.io/prologic/tube/graphs/contributors) statistics.
 
 [![](https://sourcerer.io/fame/prologic/prologic/tube/images/0)](https://sourcerer.io/fame/prologic/prologic/tube/links/0)
 [![](https://sourcerer.io/fame/prologic/prologic/tube/images/1)](https://sourcerer.io/fame/prologic/prologic/tube/links/1)

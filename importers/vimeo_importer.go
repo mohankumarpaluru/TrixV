@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/prologic/vimeodl"
+	"git.mills.io/prologic/vimeodl"
 )
 
 type VimeoImporter struct{}
