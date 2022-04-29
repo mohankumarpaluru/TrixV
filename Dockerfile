@@ -6,7 +6,7 @@ FROM golang:alpine
 
 RUN apk --no-cache -U add git build-base ffmpeg ffmpeg-dev
 
-RUN go get github.com/mutschler/mt
+RUN go install github.com/mutschler/mt@latest
 
 COPY --from=build /src/tube /tube
 

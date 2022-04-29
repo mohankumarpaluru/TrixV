@@ -50,6 +50,11 @@ $ docker pull prologic/tube
 $ docker run -p 8000:8000 -v /path/to/data:/data
 ```
 
+or using makefile:
+
+``` make docker-run ```
+
+
 Open http://DOCKER_MACHINE_IP:8000/ in your Browser!
 
 Where `DOCKER_MACHINE_IP` is the IP Address of your Docker Node.

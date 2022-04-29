@@ -23,8 +23,10 @@ build: clean
 install: build
 	@go install
 
-image:
+docker-image:
 	@docker build -t prologic/tube .
+docker-run:
+	@docker run -p 8000:8000 -t prologic/tube .
 
 test: install
 	@go test
