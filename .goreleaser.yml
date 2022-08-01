@@ -3,11 +3,8 @@ builds:
   - id: tube
     binary: tube
     main: .
-    flags:
-      - -installsuffix=netgo
     tags:
       - embed
-      - netcgo
       - static_build
     ldflags: >-
       -w

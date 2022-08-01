@@ -36,7 +36,7 @@ dev : server ## Build debug version of tube
 	@./tube
 
 server: generate ## Build the tube server
-	@$(GOCMD) build -tags "embed netgo static_build" -installsuffix netgo \
+	@$(GOCMD) build -tags "embed static_build" \
 		-ldflags "-w \
 		-X $(shell go list).Version=$(VERSION) \
 		-X $(shell go list).Commit=$(COMMIT)" \
