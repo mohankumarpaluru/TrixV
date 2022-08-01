@@ -54,11 +54,10 @@ install: build ## Install tube to $DESTDIR
 
 ifeq ($(PUBLISH), 1)
 image: generate ## Build the Docker image
-	@docker build --build-arg VERSION="$(VERSION)" --build-arg COMMIT="$(COMMIT)" -t $(IMAGE):$(TAG) .
-	@docker push $(IMAGE):$(TAG)
+	@docker buildx build --push --platform linux/arm64,linux/amd64 --tag $(IMAGE):$(TAG) --build-arg VERSION="$(VERSION)" --build-arg COMMIT="$(COMMIT)" .
 else
 image: generate
-	@docker build --build-arg VERSION="$(VERSION)" --build-arg COMMIT="$(COMMIT)" -t $(IMAGE):$(TAG) .
+	@docker buildx build --platform linux/arm64,linux/amd64 --tag $(IMAGE):$(TAG) --build-arg VERSION="$(VERSION)" --build-arg COMMIT="$(COMMIT)" .
 endif
 
 release: generate ## Release a new version to Gitea
