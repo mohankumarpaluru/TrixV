@@ -41,7 +41,7 @@ func (lib *Library) AddPath(p *Path) error {
 			return errors.New("media: duplicate library prefix")
 		}
 	}
-	if err := os.MkdirAll(p.Path, 07550); err != nil {
+	if err := os.MkdirAll(p.Path, 0755); err != nil {
 		return fmt.Errorf("error creating library path %s: %w", p.Path, err)
 	}
 	lib.Paths[p.Path] = p

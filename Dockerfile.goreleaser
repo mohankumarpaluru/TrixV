@@ -1,0 +1,26 @@
+# Runtime
+FROM alpine:latest
+
+RUN apk --no-cache -U add su-exec shadow ca-certificates tzdata ffmpeg
+
+ENV PUID=1000
+ENV PGID=1000
+
+RUN addgroup -g "${PGID}" tube && \
+    adduser -D -H -G tube -h /var/empty -u "${PUID}" tube && \
+    mkdir -p /data && chown -R tube:tube /data
+
+VOLUME /data
+
+WORKDIR /
+
+# force cgo resolver
+ENV GODEBUG=netdns=cgo
+
+COPY tube /usr/local/bin
+
+COPY .dockerfiles/entrypoint.sh /init
+COPY .dockerfiles/config.json /
+
+ENTRYPOINT ["/init"]
+CMD ["tube"]

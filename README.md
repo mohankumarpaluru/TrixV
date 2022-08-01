@@ -23,17 +23,7 @@ MP4 H.265 AAC, multiple collections and RSS feed.
 
 ## Getting Started
 
-### Using Homebrew
-
-```#!sh
-$ brew tap prologic/tube
-$ brew install tube
-$ tube
-```
-
-Open http://127.0.0.1:8000/ in your Browser!
-
-### Using a Binary
+### Prebuilt Release Binaries
 
 1. Go grab the latest binary from the
    [Releases](https://git.mills.io/prologic/tube/releases) page for your
@@ -43,28 +33,23 @@ Open http://127.0.0.1:8000/ in your Browser!
 
 Open http://127.0.0.1:8000/ in your Browser!
 
-### Using Docker
+### Published Docker Images
 
 ```#!sh
 $ docker pull prologic/tube
 $ docker run -p 8000:8000 -v /path/to/data:/data
 ```
 
-or using makefile:
-
-``` make docker-run ```
-
-
 Open http://DOCKER_MACHINE_IP:8000/ in your Browser!
 
 Where `DOCKER_MACHINE_IP` is the IP Address of your Docker Node.
 
-### From Source
+### Building From Source
 
 ```#!sh
 $ git clone https://git.mills.io/prologic/tube
 $ cd tube
-$ make
+$ make build
 $ ./tube
 ```
 
@@ -216,18 +201,6 @@ Set `path` to the value of the path where you want to store videos and where
         "content": "All Content herein Public Domain and User Contributed."
     }
 }
-
-## Stargazers over time
-
-[![Stargazers over time](https://starcharts.herokuapp.com/prologic/tube.svg)](https://starcharts.herokuapp.com/prologic/tube)
-
-## Support
-
-Support the ongoing development of Tube!
-
-**Sponser**
-
-- Become a [Sponsor](https://www.patreon.com/prologic)
 
 ## Contributors
 

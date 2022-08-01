@@ -1,0 +1,37 @@
+---
+style: Github
+template: CHANGELOG.tpl.md
+info:
+  title: CHANGELOG
+  repository_url: https://git.mills.io/prologic/tube
+options:
+  commits:
+    filters:
+      Type:
+        - Add
+        - Fix
+        - Update
+        - Document
+  commit_groups:
+    title_maps:
+      Add: Features
+      Update: Updates
+      Fix: Bug Fixes
+      Document: Documentation
+  header:
+    pattern: "^((\\w+)\\s.*)$"
+    pattern_maps:
+      - Subject
+      - Type
+  refs:
+    actions:
+      - Closes
+      - Fixes
+  reverts:
+    pattern: "^Revert \"([\\s\\S]*)\"$"
+    pattern_maps:
+      - Header
+  notes:
+    keywords:
+      - NOTE
+      - BREAKING CHANGE

@@ -1,8 +1,18 @@
 ---
 builds:
-  -
-    flags: -tags "static_build"
-    ldflags: -w -X git.mills.io/prologic/tube/.Version={{.Version}} -X git.mills.io/prologic/tube/.Commit={{.Commit}}
+  - id: tube
+    binary: tube
+    main: .
+    flags:
+      - -installsuffix=netgo
+    tags:
+      - embed
+      - netcgo
+      - static_build
+    ldflags: >-
+      -w
+      -X git.mills.io/prologic/tube.Version={{.Version}}
+      -X git.mills.io/prologic/tube.Commit={{.Commit}}
     env:
       - CGO_ENABLED=0
     goos:
@@ -12,57 +22,39 @@ builds:
       - linux
     goarch:
       - amd64
-      - arm
       - arm64
-brews:
-  -
-    github:
-      owner: prologic
-      name: homebrew-tube
-    homepage: "https://github.io/prologic/tube"
-    description: |
-      tube is a Youtube-like (without censorship and features you don't need!)
-      Video Sharing App written in Go which also supports automatic
-      transcoding to MP4 H.265 AAC, multiple collections and RSS feed.
-    dependencies:
-      - ffmpeg
-    plist: |
-      <?xml version=‘1.0’ encoding=‘UTF-8’?>
-      <!DOCTYPE plist PUBLIC \“-//Apple Computer//DTD PLIST 1.0//EN\” \”http://www.apple.com/DTDs/PropertyList-1.0.dtd\” >
-      <plist version=‘1.0’>
-      <dict>
-      <key>Label</key><string>Tube</string>
-      <key>ProgramArguments</key>
-      <array>
-        <string>/usr/local/bin/tube</string>
-        <string>/usr/local/etc/tube/config.json
-      </array>
-      <key>WorkingDirectory</key>
-      <string>/usr/local</string>
-      <key>StandardOutPath</key><string>/usr/local/log/tube.log</string>
-      <key>RunAtLoad</key></true/>
-      <key>KeepAlive</key><true/>
-      <key>Disabled</key><false/>
-      </dict>
-      </plist>
+
+dockers:
+  - image_templates: ["prologic/tube:{{ .Version }}-amd64"]
+    use: buildx
+    dockerfile: Dockerfile.goreleaser
+    build_flag_templates:
+      - "--platform=linux/amd64"
+    extra_files:
+      - ".dockerfiles/entrypoint.sh"
+      - ".dockerfiles/config.json"
+  - image_templates: ["prologic/tube:{{ .Version }}-arm64v8"]
+    use: buildx
+    goarch: arm64
+    dockerfile: Dockerfile.goreleaser
+    build_flag_templates:
+      - "--platform=linux/arm64/v8"
+    extra_files:
+      - ".dockerfiles/entrypoint.sh"
+      - ".dockerfiles/config.json"
+
+docker_manifests:
+  - name_template: prologic/tube:{{ .Version }}
+    image_templates:
+      - prologic/tube:{{ .Version }}-amd64
+      - prologic/tube:{{ .Version }}-arm64v8
+
 signs:
-  -
-    artifacts: checksum
-archives:
-  -
-    replacements:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      386: i386
-      amd64: x86_64
-checksum:
-  name_template: 'checksums.txt'
-snapshot:
-  name_template: "{{ .Tag }}-next"
-changelog:
-  sort: asc
-  filters:
-    exclude:
-      - '^docs:'
-      - '^test:'
+  - artifacts: checksum
+release:
+  gitea:
+    owner: prologic
+    name: tube
+  draft: false
+gitea_urls:
+  api: https://git.mills.io/api/v1/

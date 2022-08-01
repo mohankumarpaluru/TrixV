@@ -42,8 +42,12 @@ func main() {
 
 	cfg := app.DefaultConfig()
 	err := cfg.ReadFile(config)
-	if err != nil && !os.IsNotExist(err) {
-		log.Fatal(err)
+	if err == nil {
+		log.Infof("reading configuration from %s", config)
+	} else {
+		if !os.IsNotExist(err) {
+			log.Fatal(err)
+		}
 	}
 	a, err := app.NewApp(cfg)
 	if err != nil {

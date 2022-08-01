@@ -14,15 +14,15 @@ import (
 	"sort"
 	"strings"
 
+	"git.mills.io/prologic/tube/importers"
+	"git.mills.io/prologic/tube/media"
+	"git.mills.io/prologic/tube/utils"
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/dustin/go-humanize"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	shortuuid "github.com/lithammer/shortuuid/v3"
-	"git.mills.io/prologic/tube/importers"
-	"git.mills.io/prologic/tube/media"
-	"git.mills.io/prologic/tube/utils"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -298,11 +298,15 @@ func (a *App) uploadHandler(w http.ResponseWriter, r *http.Request) {
 
 		if err := utils.RunCmd(
 			a.Config.Thumbnailer.Timeout,
-			"mt",
-			"-b",
-			"-s",
-			"-n", "1",
-			tf.Name(),
+			"ffmpeg",
+			"-i", uf.Name(),
+			"-y",
+			"-vf", "thumbnail",
+			"-t", "3",
+			"-vframes", "1",
+			"-strict", "-2",
+			"-loglevel", "quiet",
+			thumbFn1,
 		); err != nil {
 			err := fmt.Errorf("error generating thumbnail: %w", err)
 			log.Error(err)

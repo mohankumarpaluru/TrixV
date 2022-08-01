@@ -1,0 +1,36 @@
+{
+    "library": [
+        {
+            "path": "/data/videos",
+            "prefix": ""
+        }
+    ],
+    "server": {
+        "host": "0.0.0.0",
+        "port": 8000,
+        "store_path": "/data/tube.db",
+        "upload_path": "/data/uploads",
+        "max_upload_size": 104857600
+    },
+    "thumbnailer": {
+        "timeout": 60
+    },
+    "transcoder": {
+        "timeout": 300,
+        "sizes": null
+    },
+    "feed": {
+        "external_url": "",
+        "title": "Feed Title",
+        "link": "http://your-url.example/about",
+        "description": "Feed Description",
+        "author": {
+            "name": "Author Name",
+            "email": "author@somewhere.example"
+        },
+        "copyright": "Copyright Text"
+    },
+    "copyright": {
+        "content": "All Content herein Public Domain and User Contributed."
+    }
+}
