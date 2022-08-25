@@ -173,6 +173,19 @@ Set `path` to the value of the path where you want to store videos and where
 }
 ```
 
+### Optionally Require Password for Uploading
+
+You might be hosting a page where the public can view video, but you
+don't want others to be able to upload and add content.
+
+By specifying a password as an environment variable when running tube 
+you can require this password to be provided when you access `/upload`.
+The username will always be `uploader`.
+
+```#!sh
+$ auth_password=upload123 tube -c config.json
+```
+
 ### Feed (RSS) Configuration
 
 ```#!json
