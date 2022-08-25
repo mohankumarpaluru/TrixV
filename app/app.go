@@ -14,9 +14,11 @@ import (
 	"sort"
 	"strings"
 
+	"git.mills.io/prologic/tube/app/middleware"
 	"git.mills.io/prologic/tube/importers"
 	"git.mills.io/prologic/tube/media"
 	"git.mills.io/prologic/tube/utils"
+
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/dustin/go-humanize"
 	"github.com/fsnotify/fsnotify"
@@ -95,9 +97,11 @@ func NewApp(cfg *Config) (*App, error) {
 	a.Templates.Add("import", importTemplate)
 
 	// Setup Router
+	authPassword := os.Getenv("auth_password")
+
 	r := mux.NewRouter().StrictSlash(true)
 	r.HandleFunc("/", a.indexHandler).Methods("GET", "OPTIONS")
-	r.HandleFunc("/upload", a.uploadHandler).Methods("GET", "OPTIONS", "POST")
+	r.HandleFunc("/upload", middleware.OptionallyRequireAdminAuth(a.uploadHandler, authPassword)).Methods("GET", "OPTIONS", "POST")
 	r.HandleFunc("/import", a.importHandler).Methods("GET", "OPTIONS", "POST")
 	r.HandleFunc("/v/{id}.mp4", a.videoHandler).Methods("GET")
 	r.HandleFunc("/v/{prefix}/{id}.mp4", a.videoHandler).Methods("GET")
