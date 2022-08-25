@@ -32,7 +32,8 @@ type ServerConfig struct {
 
 // ThumbnailerConfig settings for Transcoder
 type ThumbnailerConfig struct {
-	Timeout int `json:"timeout"`
+	Timeout           int `json:"timeout"`
+	PositionFromStart int `json:"position_from_start"`
 }
 
 // Sizes a map of ffmpeg -s option to suffix. e.g: hd720 -> #720p

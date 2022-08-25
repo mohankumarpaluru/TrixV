@@ -302,7 +302,7 @@ func (a *App) uploadHandler(w http.ResponseWriter, r *http.Request) {
 			"-i", uf.Name(),
 			"-y",
 			"-vf", "thumbnail",
-			"-t", "3",
+			"-t", fmt.Sprint(a.Config.Thumbnailer.PositionFromStart),
 			"-vframes", "1",
 			"-strict", "-2",
 			"-loglevel", "quiet",
