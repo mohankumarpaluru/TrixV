@@ -16,10 +16,12 @@ import (
 
 	"git.mills.io/prologic/tube/app/middleware"
 	"git.mills.io/prologic/tube/importers"
+	"git.mills.io/prologic/tube/static"
+	"git.mills.io/prologic/tube/templates"
+
 	"git.mills.io/prologic/tube/media"
 	"git.mills.io/prologic/tube/utils"
 
-	rice "github.com/GeertJohan/go.rice"
 	"github.com/dustin/go-humanize"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gorilla/handlers"
@@ -27,8 +29,6 @@ import (
 	shortuuid "github.com/lithammer/shortuuid/v3"
 	log "github.com/sirupsen/logrus"
 )
-
-//go:generate rice embed-go
 
 // App represents main application.
 type App struct {
@@ -73,7 +73,6 @@ func NewApp(cfg *Config) (*App, error) {
 	a.Listener = ln
 
 	// Templates
-	box := rice.MustFindBox("../templates")
 
 	a.Templates = newTemplateStore("base")
 
@@ -82,18 +81,18 @@ func NewApp(cfg *Config) (*App, error) {
 	}
 
 	indexTemplate := template.New("index").Funcs(templateFuncs)
-	template.Must(indexTemplate.Parse(box.MustString("index.html")))
-	template.Must(indexTemplate.Parse(box.MustString("base.html")))
+	template.Must(indexTemplate.Parse(templates.MustGetTemplate("index.html")))
+	template.Must(indexTemplate.Parse(templates.MustGetTemplate("base.html")))
 	a.Templates.Add("index", indexTemplate)
 
 	uploadTemplate := template.New("upload").Funcs(templateFuncs)
-	template.Must(uploadTemplate.Parse(box.MustString("upload.html")))
-	template.Must(uploadTemplate.Parse(box.MustString("base.html")))
+	template.Must(uploadTemplate.Parse(templates.MustGetTemplate("upload.html")))
+	template.Must(uploadTemplate.Parse(templates.MustGetTemplate("base.html")))
 	a.Templates.Add("upload", uploadTemplate)
 
 	importTemplate := template.New("import").Funcs(templateFuncs)
-	template.Must(importTemplate.Parse(box.MustString("import.html")))
-	template.Must(importTemplate.Parse(box.MustString("base.html")))
+	template.Must(importTemplate.Parse(templates.MustGetTemplate("import.html")))
+	template.Must(importTemplate.Parse(templates.MustGetTemplate("base.html")))
 	a.Templates.Add("import", importTemplate)
 
 	// Setup Router
@@ -113,7 +112,7 @@ func NewApp(cfg *Config) (*App, error) {
 	// Static file handler
 	fsHandler := http.StripPrefix(
 		"/static",
-		http.FileServer(rice.MustFindBox("../static").HTTPBox()),
+		http.FileServer(static.GetFilesystem()),
 	)
 	r.PathPrefix("/static/").Handler(fsHandler).Methods("GET")
 
@@ -157,7 +156,7 @@ func (a *App) Run() error {
 		}
 		a.Watcher.Add(p.Path)
 	}
-	if err := os.MkdirAll(a.Config.Server.UploadPath, 0755); err != nil {
+	if err := os.MkdirAll(a.Config.Server.UploadPath, 0o755); err != nil {
 		return fmt.Errorf(
 			"error creating upload path %s: %w",
 			a.Config.Server.UploadPath, err,
@@ -724,7 +723,7 @@ func (a *App) thumbHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", "public, max-age=7776000")
 	if m.ThumbType == "" {
 		w.Header().Set("Content-Type", "image/jpeg")
-		w.Write(rice.MustFindBox("../static").MustBytes("defaulticon.jpg"))
+		w.Write(static.MustGetFile("defaulticon.jpg"))
 	} else {
 		w.Header().Set("Content-Type", m.ThumbType)
 		w.Write(m.Thumb)

@@ -6,7 +6,6 @@ require (
 	git.mills.io/prologic/bitcask v1.0.2
 	git.mills.io/prologic/vimeodl v0.0.0-20210827153510-f28ed0158ec3
 	github.com/Andreychik32/ytdl v1.0.4
-	github.com/GeertJohan/go.rice v1.0.2
 	github.com/dhowden/tag v0.0.0-20220618230019-adf36e896086
 	github.com/dustin/go-humanize v1.0.0
 	github.com/fsnotify/fsnotify v1.5.4
@@ -22,7 +21,6 @@ require (
 	github.com/abcum/lcp v0.0.0-20201209214815-7a3f3840be81 // indirect
 	github.com/antchfx/jsonquery v1.3.0 // indirect
 	github.com/antchfx/xpath v1.2.1 // indirect
-	github.com/daaku/go.zipexe v1.0.1 // indirect
 	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
