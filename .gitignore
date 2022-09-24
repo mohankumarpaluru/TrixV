@@ -5,6 +5,7 @@
 
 /dist
 /tube
+tube
 /.DS_Store
 
 videos/*

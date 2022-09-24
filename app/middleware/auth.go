@@ -3,6 +3,7 @@ package middleware
 import (
 	"crypto/subtle"
 	"net/http"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -45,6 +46,20 @@ func OptionallyRequireAdminAuth(handler http.HandlerFunc, password string) http.
 			return
 		}
 
+		handler(w, r)
+	}
+}
+
+func RequireSandstormPermission(handler http.HandlerFunc, permissionNeeded string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		
+		// Failed
+		if !strings.Contains(r.Header.Get("X-Sandstorm-Permissions"), permissionNeeded) {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			log.Debugln("No upload capability granted")
+			return
+		}
+		
 		handler(w, r)
 	}
 }

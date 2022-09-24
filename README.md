@@ -236,3 +236,5 @@ tube source code is available under the MIT [License](LICENSE).
 
 Previously based off of [tube](https://github.com/wybiral/tube) by [davy wybiral
 ](https://github.com/wybiral). (See [LICENSE.old](LICENSE.old))
+
+App icon is licensed under the Apache license from Google Noto Emoji.
