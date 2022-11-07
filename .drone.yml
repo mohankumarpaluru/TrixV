@@ -13,10 +13,10 @@ steps:
   - name: build-image-push
     image: plugins/kaniko
     settings:
-      repo: prologic/yarnd
+      repo: prologic/tube
       tags: latest
       build_args:
-        - VERSION=edge
+        - VERSION=latest
         - COMMIT=${DRONE_COMMIT_SHA:0:8}
       username:
         from_secret: dockerhub_username
