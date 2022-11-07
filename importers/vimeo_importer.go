@@ -43,7 +43,7 @@ func (i *VimeoImporter) GetVideoInfo(url string) (videoInfo VideoInfo, err error
 
 	videoInfo.ThumbnailURL = vimeodl.PickBestThumbnail(config)
 
-	videoInfo.ID = string(config.Video.Id)
+	videoInfo.ID = fmt.Sprintf("%d", config.Video.Id)
 	videoInfo.Title = config.Video.Title
 
 	return
