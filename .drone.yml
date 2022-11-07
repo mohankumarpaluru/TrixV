@@ -1,0 +1,49 @@
+---
+kind: pipeline
+name: default
+
+steps:
+  - name: build-and-test
+    image: r.mills.io/prologic/golang-alpine:latest
+    commands:
+      - make deps
+      - make build
+      - make test
+
+  - name: build-image-push
+    image: plugins/kaniko
+    settings:
+      repo: prologic/yarnd
+      tags: latest
+      build_args:
+        - VERSION=edge
+        - COMMIT=${DRONE_COMMIT_SHA:0:8}
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+    depends_on:
+      - build-and-test
+    when:
+      branch:
+        - master
+      event:
+        - push
+
+  - name: notify-irc
+    image: plugins/webhook
+    settings:
+      urls:
+        - https://msgbus.mills.io/ci.mills.io
+    when:
+      status:
+        - success
+        - failure
+
+trigger:
+  branch:
+    - master
+  event:
+    - tag
+    - push
+    - pull_request
