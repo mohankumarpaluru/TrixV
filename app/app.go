@@ -16,10 +16,9 @@ import (
 
 	"git.mills.io/prologic/tube/app/middleware"
 	"git.mills.io/prologic/tube/importers"
+	"git.mills.io/prologic/tube/media"
 	"git.mills.io/prologic/tube/static"
 	"git.mills.io/prologic/tube/templates"
-
-	"git.mills.io/prologic/tube/media"
 	"git.mills.io/prologic/tube/utils"
 
 	"github.com/dustin/go-humanize"
