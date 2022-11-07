@@ -27,6 +27,7 @@ COPY ./templates/* ./templates/
 # Copy sources
 COPY *.go ./
 COPY ./app/*.go ./app/
+COPY ./app/middleware/*.go ./app/middleware/
 COPY ./importers/*.go ./importers/
 COPY ./media/*.go ./media/
 COPY ./utils/*.go ./utils/
