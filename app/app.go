@@ -146,6 +146,7 @@ func NewApp(cfg *Config) (*App, error) {
 // Run imports the library and starts server.
 func (a *App) Run() error {
 	for _, pc := range a.Config.Library {
+		pc.Path = filepath.Clean(pc.Path)
 		p := &media.Path{
 			Path:   pc.Path,
 			Prefix: pc.Prefix,

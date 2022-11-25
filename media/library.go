@@ -35,10 +35,10 @@ func (lib *Library) AddPath(p *Path) error {
 	// make sure new path doesn't collide with existing ones
 	for _, p2 := range lib.Paths {
 		if p.Path == p2.Path {
-			return errors.New("media: duplicate library path")
+			return errors.New(fmt.Sprintf("media: duplicate (normalized) library path '%s'", p.Path))
 		}
 		if p.Prefix == p2.Prefix {
-			return errors.New("media: duplicate library prefix")
+			return errors.New(fmt.Sprintf("media: duplicate library prefix '%s'", p.Prefix))
 		}
 	}
 	if err := os.MkdirAll(p.Path, 0755); err != nil {
