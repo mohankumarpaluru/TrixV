@@ -236,15 +236,12 @@ func (a *App) uploadHandler(w http.ResponseWriter, r *http.Request) {
 
 		title := r.FormValue("video_title")
 		description := r.FormValue("video_description")
-
-		// TODO: Make collection user selectable from drop-down in Form
-		// XXX: Assume we can put uploaded videos into the first collection (sorted) we find
-		keys := make([]string, 0, len(a.Library.Paths))
-		for k := range a.Library.Paths {
-			keys = append(keys, k)
+		if _, exists := a.Library.Paths[r.FormValue("target_library_path")]; !exists {
+			err := fmt.Errorf("uploading to invalid library path: %s", r.FormValue("target_library_path"))
+			log.Error(err)
+			return
 		}
-		sort.Strings(keys)
-		collection := keys[0]
+		targetLibraryPath := r.FormValue("target_library_path")
 
 		uf, err := ioutil.TempFile(
 			a.Config.Server.UploadPath,
@@ -278,7 +275,7 @@ func (a *App) uploadHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		vf := filepath.Join(
-			a.Library.Paths[collection].Path,
+			a.Library.Paths[targetLibraryPath].Path,
 			fmt.Sprintf("%s.mp4", shortuuid.New()),
 		)
 		thumbFn1 := fmt.Sprintf("%s.jpg", strings.TrimSuffix(tf.Name(), filepath.Ext(tf.Name())))
