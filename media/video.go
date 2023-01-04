@@ -101,21 +101,22 @@ func ParseVideo(p *Path, name string) (*Video, error) {
 		log.Println("Failed to read yml for", v.Path)
 	}
 
-	// Add thumbnail (if exists)
+	// Add thumbnail from embedded tags (if exists)
 	pic := m.Picture()
 	if pic != nil {
 		v.Thumb = pic.Data
 		v.ThumbType = pic.MIMEType
-	} else {
-		thumbFn := fmt.Sprintf("%s.jpg", strings.TrimSuffix(pth, filepath.Ext(pth)))
-		if utils.FileExists(thumbFn) {
-			data, err := ioutil.ReadFile(fmt.Sprintf("%s.jpg", strings.TrimSuffix(pth, filepath.Ext(pth))))
-			if err != nil {
-				return nil, err
-			}
-			v.Thumb = data
-			v.ThumbType = "image/jpeg"
+	}
+
+	// Add thumbnail from external file (if exists)
+	if utils.FileExists(fmt.Sprintf("%s.jpg", strings.TrimSuffix(pth, filepath.Ext(pth)))) {
+		data, err := ioutil.ReadFile(fmt.Sprintf("%s.jpg", strings.TrimSuffix(pth, filepath.Ext(pth))))
+		if err != nil {
+			log.Println("Failed to read thumbnail file for", v.Path)
+			return nil, err
 		}
+		v.Thumb = data
+		v.ThumbType = "image/jpeg"
 	}
 
 	return v, nil
