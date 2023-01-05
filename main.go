@@ -41,14 +41,15 @@ func main() {
 	}
 
 	cfg := app.DefaultConfig()
+	log.Infof("Reading configuration from %s", config)
 	err := cfg.ReadFile(config)
-	if err == nil {
-		log.Infof("reading configuration from %s", config)
-	} else {
-		if !os.IsNotExist(err) {
+	if err != nil {
+		if flag.Lookup("config").Changed {
 			log.Fatal(err)
 		}
+		log.Infof("Reading %s failed. Starting with builtin defaults.", config)
 	}
+	// I'd like to add something like this here: log.Debug("Active config: %s", cfg.toJson())
 	a, err := app.NewApp(cfg)
 	if err != nil {
 		log.Fatal(err)
