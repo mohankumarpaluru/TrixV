@@ -11,7 +11,7 @@
           <div class="upload-details">
             <select id="target-library-path" name="target-library-path">
 {{range $index, $item :=.Config.Library}}
-              <option value="{{$item.Path}}">{{$item.Path}}</option>
+              <option value="{{$item.Path}}"{{if eq $index 0}} selected{{end}}>{{$item.Path}}</option>
 {{end}}
             </select>
             <input id="video-title" type="text" placeholder="Optional title" />
