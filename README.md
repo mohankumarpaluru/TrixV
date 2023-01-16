@@ -96,14 +96,37 @@ Here are some documentation on key configuration items:
     "library": [
         {
             "path": "videos",
-            "prefix": ""
+            "prefix": "",
+            "preserve_upload_filename": false
         }
     ],
 }
 ```
 
-Set `path` to the value of the path where you want to store videos and where
-`tube` will look for new videos.
+- Set `path` to the value of the path where you want to store videos
+and where `tube` will watch for new video files to show up.
+- Set `prefix` to add a directory component in the video URL.
+- Set the (optional) `preserve_upload_filename` parameter to `true`,
+to to preserve the name of files that are uploaded to this location.
+
+You can add more than one location for video files.
+```#!json
+{
+    "library": [
+        {
+            "path": "/path/to/cat/videos",
+            "prefix": "cats",
+            "preserve_upload_filename": true
+        },
+        {
+            "path": "relative/dog/directory/",
+            "prefix": "dogs"
+        },        
+    ],
+}
+```
+The path will be visible on the upload page and clients can select a
+destination for their uploads. Both `prefix` and `path` need to be unique.
 
 ### Server Options / Upload Path and Max Upload Size
 
@@ -114,6 +137,7 @@ Set `path` to the value of the path where you want to store videos and where
         "port": 8000,
         "store_path": "tube.db",
         "upload_path": "uploads",
+        "preserve_upload_filename": false,
         "max_upload_size": 104857600
     }
 }
@@ -129,6 +153,11 @@ Set `path` to the value of the path where you want to store videos and where
 - Set `upload_path` to a directory that you wish to use as a temporary working
   space for `tube` to store uploaded videos and process them. This can be a
   tmpfs file system for example for faster I/O.
+- Set `preserve_upload_filename` parameter to `true` and tube will try to
+  preserve the filename that was transmitted by the client. The default is
+  to give random filenames to uploaded files.
+  If you set it to `true` in the "server" node, it will be active for all
+  library locations.
 - Set `max_upload_size` to the maximum number of bytes you wish to impose on
   uploaded and imported videos. Upload(s)/Import(s) that exceed this size will
   by denied by the server. This is a saftey measure so as to not DoS the

@@ -2,7 +2,8 @@
     "library": [
         {
             "path": "videos",
-            "prefix": ""
+            "prefix": "",
+            "preserve_upload_filename": false
         }
     ],
     "server": {
@@ -10,6 +11,7 @@
         "port": 8000,
         "store_path": "tube.db",
         "upload_path": "uploads",
+        "preserve_upload_filename": false,
         "max_upload_size": 104857600
     },
     "thumbnailer": {

@@ -21,6 +21,7 @@ import (
 	"git.mills.io/prologic/tube/templates"
 	"git.mills.io/prologic/tube/utils"
 
+	"github.com/cyphar/filepath-securejoin"
 	"github.com/dustin/go-humanize"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gorilla/handlers"
@@ -148,8 +149,9 @@ func (a *App) Run() error {
 	for _, pc := range a.Config.Library {
 		pc.Path = filepath.Clean(pc.Path)
 		p := &media.Path{
-			Path:   pc.Path,
-			Prefix: pc.Prefix,
+			Path:                   pc.Path,
+			Prefix:                 pc.Prefix,
+			PreserveUploadFilename: pc.PreserveUploadFilename,
 		}
 		err := a.Library.AddPath(p)
 		if err != nil {
@@ -215,6 +217,11 @@ func (a *App) indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func filenameWithoutExtension(path string) (stem string) {
+	var basename string = filepath.Base(path)
+	return basename[0:len(basename)-len(filepath.Ext(basename))]
+}
+
 // HTTP handler for /upload
 func (a *App) uploadHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
@@ -278,10 +285,49 @@ func (a *App) uploadHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		vf := filepath.Join(
-			a.Library.Paths[targetLibraryPath].Path,
-			fmt.Sprintf("%s.mp4", shortuuid.New()),
-		)
+		// Here we set the final filename for the video file after transcoding.
+		var vf string
+		if a.Config.Server.PreserveUploadFilename ||
+		   a.Library.Paths[targetLibraryPath].PreserveUploadFilename {
+			vf, err = securejoin.SecureJoin(
+				a.Library.Paths[targetLibraryPath].Path,
+				fmt.Sprintf("%s.mp4", filenameWithoutExtension(handler.Filename)),
+			)
+		} else {
+			vf, err = securejoin.SecureJoin(
+				a.Library.Paths[targetLibraryPath].Path,
+				fmt.Sprintf("%s.mp4", shortuuid.New()),
+			)
+		}
+		if err != nil {
+			err := fmt.Errorf("error creating file name in target library: %w", err)
+			log.Error(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		// If the (sanitized) original filename collides with an existing file,
+		// we try to add a shortuuid() to it until we find one that doesn't exist.
+		for _, err := os.Stat(vf) ; ! os.IsNotExist(err) ; _, err = os.Stat(vf) {
+			if err != nil {
+				log.Error(err)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			log.Warn("File '"+ vf + "' already exists.");
+			vf, err = securejoin.SecureJoin(
+				a.Library.Paths[targetLibraryPath].Path,
+				fmt.Sprintf("%s_%s.mp4", filenameWithoutExtension(vf), shortuuid.New()),
+			)
+			if err != nil {
+				err := fmt.Errorf("error creating file name in target library: %w", err)
+				log.Error(err)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			log.Warn("Using filename '" + vf + "' instead.");
+		}
+
+
 		thumbFn1 := fmt.Sprintf("%s.jpg", strings.TrimSuffix(tf.Name(), filepath.Ext(tf.Name())))
 		thumbFn2 := fmt.Sprintf("%s.jpg", strings.TrimSuffix(vf, filepath.Ext(vf)))
 

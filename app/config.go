@@ -17,17 +17,19 @@ type Config struct {
 
 // PathConfig settings for media library path.
 type PathConfig struct {
-	Path   string `json:"path"`
-	Prefix string `json:"prefix"`
+	Path                   string `json:"path"`
+	Prefix                 string `json:"prefix"`
+	PreserveUploadFilename bool   `json:"preserve_upload_filename,omitempty"`
 }
 
 // ServerConfig settings for App Server.
 type ServerConfig struct {
-	Host          string `json:"host"`
-	Port          int    `json:"port"`
-	StorePath     string `json:"store_path"`
-	UploadPath    string `json:"upload_path"`
-	MaxUploadSize int64  `json:"max_upload_size"`
+	Host                   string `json:"host"`
+	Port                   int    `json:"port"`
+	StorePath              string `json:"store_path"`
+	UploadPath             string `json:"upload_path"`
+	PreserveUploadFilename bool   `json:"preserve_upload_filename,omitempty"`
+	MaxUploadSize          int64  `json:"max_upload_size"`
 }
 
 // ThumbnailerConfig settings for Transcoder
@@ -68,16 +70,18 @@ func DefaultConfig() *Config {
 	return &Config{
 		Library: []*PathConfig{
 			&PathConfig{
-				Path:   "videos",
-				Prefix: "",
+				Path:                   "videos",
+				Prefix:                 "",
+				PreserveUploadFilename: false,
 			},
 		},
 		Server: &ServerConfig{
-			Host:          "0.0.0.0",
-			Port:          8000,
-			StorePath:     "tube.db",
-			UploadPath:    "uploads",
-			MaxUploadSize: 104857600,
+			Host:                   "0.0.0.0",
+			Port:                   8000,
+			StorePath:              "tube.db",
+			UploadPath:             "uploads",
+			PreserveUploadFilename: false,
+			MaxUploadSize:          104857600,
 		},
 		Thumbnailer: &ThumbnailerConfig{
 			Timeout: 60,
