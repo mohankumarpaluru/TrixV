@@ -161,11 +161,15 @@ func (a *App) Run() error {
 		}
 		a.Watcher.Add(p.Path)
 	}
-	if err := os.MkdirAll(a.Config.Server.UploadPath, 0o755); err != nil {
-		return fmt.Errorf(
-			"error creating upload path %s: %w",
-			a.Config.Server.UploadPath, err,
-		)
+	if _, err := os.Stat(a.Config.Server.UploadPath) ; err != nil && os.IsNotExist(err) {
+		log.Warn(
+			fmt.Sprintf("app: upload path '%s' does not exist. Creating it now.",
+			a.Config.Server.UploadPath))
+		if err := os.MkdirAll(a.Config.Server.UploadPath, 0o755); err != nil {
+			return fmt.Errorf(
+				"error creating upload path %s: %w",
+				a.Config.Server.UploadPath, err)
+		}
 	}
 	buildFeed(a)
 	go startWatcher(a)

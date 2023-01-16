@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"os"
 	"path"
 	"path/filepath"
@@ -41,8 +41,11 @@ func (lib *Library) AddPath(p *Path) error {
 			return errors.New(fmt.Sprintf("media: duplicate library prefix '%s'", p.Prefix))
 		}
 	}
-	if err := os.MkdirAll(p.Path, 0755); err != nil {
-		return fmt.Errorf("error creating library path %s: %w", p.Path, err)
+	if _, err := os.Stat(p.Path) ; err != nil && os.IsNotExist(err) {
+		log.Warn(fmt.Sprintf("media: library path '%s' does not exist. Creating it now.", p.Path))
+		if err := os.MkdirAll(p.Path, 0o755); err != nil {
+			return fmt.Errorf("error creating library path %s: %w", p.Path, err)
+		}
 	}
 	lib.Paths[p.Path] = p
 	return nil
@@ -84,7 +87,7 @@ func (lib *Library) Add(fp string) error {
 		return err
 	}
 	lib.Videos[v.ID] = v
-	log.Println("Added:", v.Path)
+	log.Debug("Added:", v.Path)
 	return nil
 }
 
@@ -111,7 +114,7 @@ func (lib *Library) Remove(fp string) {
 	v, ok := lib.Videos[id]
 	if ok {
 		delete(lib.Videos, id)
-		log.Println("Removed:", v.Path)
+		log.Debug("Removed:", v.Path)
 	}
 }
 

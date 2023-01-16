@@ -32,7 +32,7 @@ func Download(url, filename string) error {
 		return err
 	}
 
-	if err := ioutil.WriteFile(filename, data, 0644); err != nil {
+	if err := ioutil.WriteFile(filename, data, 0o644); err != nil {
 		return err
 	}
 
