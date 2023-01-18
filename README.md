@@ -4,7 +4,7 @@
 
 `tube` is a Youtube-like (_without censorship and features you don't need!_)
 Video Sharing App written in Go which also supports automatic transcoding to
-MP4 H.265 AAC, multiple collections and RSS feed.
+MP4 H.264 AAC, multiple collections and RSS feed.
 
 ## Features
 
@@ -12,7 +12,7 @@ MP4 H.265 AAC, multiple collections and RSS feed.
 - Easy to upload videos (just use the builtin uploader and automatic transcoder!)
 - Builtin ffmpeg-based Transcoder that automatically converts your uploaded content to MP4 H.264 / AAC
 - Builtin automatic thumbnail generator
-- No database (video info pulled from file metadata)
+- No database (video info pulled from file metadata, or files next to it)
 - No JavaScript (the player UI is entirely HTML, except for the uploader which degrades!))
 - Easy to customize CSS and HTML template
 - Automatically generates RSS feed (at `/feed.xml`)
@@ -109,6 +109,19 @@ and where `tube` will watch for new video files to show up.
 - Set the (optional) `preserve_upload_filename` parameter to `true`,
 to to preserve the name of files that are uploaded to this location.
 
+When `tube` sees a video file in `path` it will read the metadata directly
+from the video file. Next it will look for a `.yml` file with the same stem
+(Same filename, different extension). Any tag extracted from the video file
+can be overridden here.
+```#!.yml
+title: Something Funny
+description: A short little funny video
+```
+Lastly, `tube` will look for a `.jpg` file with the same stem,
+to use as thumbnail image.
+
+
+
 You can add more than one location for video files.
 ```#!json
 {
@@ -121,7 +134,7 @@ You can add more than one location for video files.
         {
             "path": "relative/dog/directory/",
             "prefix": "dogs"
-        },        
+        },
     ],
 }
 ```
@@ -203,13 +216,17 @@ destination for their uploads. Both `prefix` and `path` need to be unique.
     }
 }
 ```
+Transcoding is currently done into am MP4 container with H.264 video codec and AAC audio codec.
+HEVC / H.265 It is easy to add, but due to current browser and mobile device limitation we stick
+with H.264 as default for now. If you want to add H.265 support, we are open for pull requests
+that allow configuring the target codec e.g. via the `transcoder` section in `config.json`.
 
 ### Optionally Require Password for Uploading
 
 You might be hosting a page where the public can view video, but you
 don't want others to be able to upload and add content.
 
-By specifying a password as an environment variable when running tube 
+By specifying a password as an environment variable when running tube
 you can require this password to be provided when you access `/upload`.
 The username will always be `uploader`.
 
