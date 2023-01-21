@@ -39,9 +39,10 @@ COPY ./utils/*.go ./utils/
 #       COMMIT value to change.
 ARG VERSION="0.0.0"
 ARG COMMIT="HEAD"
+ARG BUILD=""
 
 # Build server binary
-RUN make server VERSION=$VERSION COMMIT=$COMMIT
+RUN make server VERSION=$VERSION COMMIT=$COMMIT BUILD=$BUILD
 
 # Runtime
 FROM alpine:latest

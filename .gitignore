@@ -5,8 +5,9 @@
 
 /dist
 /tube
-tube
-/.DS_Store
+/cmd/tube/tube
+
+**/.DS_Store
 
 videos/*
 !videos/README.md

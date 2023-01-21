@@ -2,9 +2,10 @@
 .PHONY: help deps dev build install image release test clean clean-all
 
 export CGO_ENABLED=0
-VERSION=$(shell git describe --abbrev=0 --tags 2>/dev/null || echo "0.0.0")
-COMMIT=$(shell git rev-parse --short HEAD || echo "HEAD")
+VERSION=$(shell git describe --abbrev=0 --tags 2>/dev/null || echo "$VERSION")
+COMMIT=$(shell git rev-parse --short HEAD || echo "$COMMIT")
 BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
+BUILD=$(shell git show -s --pretty=format:%cI)
 GOCMD=go
 GOVER=$(shell go version | grep -o -E 'go1\.17\.[0-9]+')
 
@@ -35,12 +36,23 @@ dev : DEBUG=1
 dev : server ## Build debug version of tube
 	@./tube
 
-server: generate ## Build the tube server
-	@$(GOCMD) build -tags "embed static_build" \
+server: generate ## Build the yarnd server
+ifeq ($(DEBUG), 1)
+	@echo "Building in debug mode..."
+	@$(GOCMD) build $(FLAGS) -tags "netgo static_build" -installsuffix netgo \
+		-ldflags "\
+		-X $(shell go list).Version=$(VERSION) \
+		-X $(shell go list).Commit=$(COMMIT) \
+		-X $(shell go list).Build=$(BUILD)" \
+		./cmd/tube/...
+else
+	@$(GOCMD) build $(FLAGS) -tags "netgo static_build" -installsuffix netgo \
 		-ldflags "-w \
 		-X $(shell go list).Version=$(VERSION) \
-		-X $(shell go list).Commit=$(COMMIT)" \
-		.
+		-X $(shell go list).Commit=$(COMMIT) \
+		-X $(shell go list).Build=$(BUILD)" \
+		./cmd/tube/...
+endif
 
 build: server ## Build the server
 
@@ -54,10 +66,18 @@ install: build ## Install tube to $DESTDIR
 
 ifeq ($(PUBLISH), 1)
 image: generate ## Build the Docker image
-	@docker buildx build --push --platform linux/arm64,linux/amd64 --tag $(IMAGE):$(TAG) --build-arg VERSION="$(VERSION)" --build-arg COMMIT="$(COMMIT)" .
+	@docker buildx build \
+		--build-arg VERSION="$(VERSION)" \
+		--build-arg COMMIT="$(COMMIT)" \
+		--build-arg BUILD="$(BUILD)" \
+		--platform linux/amd64,linux/arm64 --push -t $(IMAGE):$(TAG) .
 else
 image: generate
-	@docker buildx build --platform linux/arm64,linux/amd64 --tag $(IMAGE):$(TAG) --build-arg VERSION="$(VERSION)" --build-arg COMMIT="$(COMMIT)" .
+	@docker build  \
+		--build-arg VERSION="$(VERSION)" \
+		--build-arg COMMIT="$(COMMIT)" \
+		--build-arg BUILD="$(BUILD)" \
+		-t $(IMAGE):$(TAG) .
 endif
 
 release: generate ## Release a new version to Gitea

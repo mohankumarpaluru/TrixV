@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	"git.mills.io/prologic/tube/app"
 	log "github.com/sirupsen/logrus"
 	flag "github.com/spf13/pflag"
+
+	"git.mills.io/prologic/tube"
+	"git.mills.io/prologic/tube/app"
 )
 
 var (
@@ -36,7 +38,7 @@ func main() {
 	}
 
 	if version {
-		fmt.Printf("tube version %s", FullVersion())
+		fmt.Printf("tube version %s", tube.FullVersion())
 		os.Exit(0)
 	}
 
