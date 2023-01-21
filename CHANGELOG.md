@@ -1,4 +1,34 @@
 
+<a name="1.2.0"></a>
+## [1.2.0](https://git.mills.io/prologic/tube/compare/v1.1.13...1.2.0) (2023-01-21)
+
+### Bug Fixes
+
+* Fix GoReleaser config
+* Fix GoReleaser config
+* Fix (refix) Dockerfile
+* Fix Dockerfile
+* Fix build and versioning (borrowed from yarn)
+* Fix Drone build-and-push-image step
+* Fix Docker image build
+* Fix CI
+* Fix image target to build multi-arch images to the Docker Hub
+
+### Features
+
+* Add Drone CI
+* Add Sandstorm packaging files (#26)
+
+### Updates
+
+* Update deps
+
+### Note
+
+
+that Sandstorm app metadata is supposed to be less than 1 MB total, so I optimized your screenshots. I dare you to tell the difference with the naked eye.
+
+
 <a name="v1.1.13"></a>
 ## [v1.1.13](https://git.mills.io/prologic/tube/compare/v1.1.12...v1.1.13) (2022-08-01)
 
@@ -15,6 +45,7 @@
 
 ### Updates
 
+* Update CHANGELOG for v1.1.13
 * Update deps
 * Update Go versions to build/test against in CI to 1.14, 1.15 and 1.16
 * Update shortuuid dep
