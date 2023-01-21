@@ -2,7 +2,7 @@
 builds:
   - id: tube
     binary: tube
-    main: .
+    main: ./cmd/tube/...
     tags:
       - embed
       - static_build
@@ -10,6 +10,7 @@ builds:
       -w
       -X git.mills.io/prologic/tube.Version={{.Version}}
       -X git.mills.io/prologic/tube.Commit={{.Commit}}
+      -X git.mills.io/prologic/tube.Build={{.Date}}
     env:
       - CGO_ENABLED=0
     goos:
