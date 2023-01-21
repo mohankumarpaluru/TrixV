@@ -2,7 +2,7 @@
 builds:
   - id: tube
     binary: tube
-    main: ./cmd/tube/...
+    main: ./cmd/tube
     tags:
       - embed
       - static_build
