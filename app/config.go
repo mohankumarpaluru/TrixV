@@ -85,6 +85,7 @@ func DefaultConfig() *Config {
 		},
 		Thumbnailer: &ThumbnailerConfig{
 			Timeout: 60,
+			PositionFromStart: 3,
 		},
 		Transcoder: &TranscoderConfig{
 			Timeout: 300,
