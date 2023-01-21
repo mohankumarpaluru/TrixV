@@ -31,6 +31,7 @@ COPY ./app/middleware/*.go ./app/middleware/
 COPY ./importers/*.go ./importers/
 COPY ./media/*.go ./media/
 COPY ./utils/*.go ./utils/
+COPY ./cmd/tube/*.go ./tube/yarnd/
 
 # Version/Commit (there there is no .git in Docker build context)
 # NOTE: This is fairly low down in the Dockerfile instructions so
