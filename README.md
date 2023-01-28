@@ -270,7 +270,7 @@ used it in their own projects or products, fixed bugs, improved performance
 and even fix tiny typos in documentation! Thank you and keep contributing!
 
 You can find an [AUTHORS](AUTHORS) file where we keep a list of contributors
-to the project. If you contriibute a PR please consider adding your name there.
+to the project. If you contribute a PR please consider adding your name there.
 There is also Github's own [Contributors](https://git.mills.io/prologic/tube/graphs/contributors) statistics.
 
 [![](https://sourcerer.io/fame/prologic/prologic/tube/images/0)](https://sourcerer.io/fame/prologic/prologic/tube/links/0)
@@ -283,6 +283,6 @@ There is also Github's own [Contributors](https://git.mills.io/prologic/tube/gra
 tube source code is available under the MIT [License](LICENSE).
 
 Previously based off of [tube](https://github.com/wybiral/tube) by [davy wybiral
-](https://github.com/wybiral). (See [LICENSE.old](LICENSE.old))
+](https://github.com/wybiral).
 
 App icon is licensed under the Apache license from Google Noto Emoji.
