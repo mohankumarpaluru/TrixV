@@ -73,9 +73,12 @@ check_goversion() {
     return 1
   fi
 
-  gover="$(go version | grep -o -E 'go[0-9]+\.[0-9]+(\.[0-9]+)?')"
+  gover=$(go version | sed -E 's/.*go([0-9]+\.[0-9]+(\.[0-9]+)?).*/\1/')
+  major=$(echo $gover | cut -d. -f1)
+  minor=$(echo $gover | cut -d. -f2)
+  patch=$(echo $gover | cut -d. -f3)
 
-  if ! go version | grep -E 'go1\.1[789](\.[0-9]+)?' > /dev/null; then
+  if [ "$major" -lt "1" ] || [ "$major" -eq "1" -a "$minor" -lt "17" ] ; then
     log2 "Go 1.17+ is required, found ${gover}"
     return 1
   fi
