@@ -42,6 +42,9 @@ type App struct {
 	Router    *mux.Router
 }
 
+// 1MB buffer in RAM seems enough
+const uploadParserBuffer = 1_048_576
+
 // NewApp returns a new instance of App from Config.
 func NewApp(cfg *Config) (*App, error) {
 	if cfg == nil {
@@ -234,7 +237,7 @@ func (a *App) uploadHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		a.render("upload", w, ctx)
 	} else if r.Method == "POST" {
-		r.ParseMultipartForm(a.Config.Server.MaxUploadSize)
+		r.ParseMultipartForm(uploadParserBuffer)
 
 		file, handler, err := r.FormFile("video_file")
 		if err != nil {
