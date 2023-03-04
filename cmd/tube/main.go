@@ -49,7 +49,7 @@ func main() {
 		if flag.Lookup("config").Changed {
 			log.Fatal(err)
 		}
-		log.Infof("Reading %s failed. Starting with builtin defaults.", config)
+		log.WithError(err).Infof("Reading %s failed. Starting with builtin defaults.", config)
 	}
 	// I'd like to add something like this here: log.Debug("Active config: %s", cfg.toJson())
 	a, err := app.NewApp(cfg)
