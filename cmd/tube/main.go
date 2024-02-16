@@ -1,3 +1,4 @@
+// Package main implements a simple Youtube-like self-hosted video sharing service.
 package main
 
 import (

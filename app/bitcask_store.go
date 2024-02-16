@@ -6,12 +6,12 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"git.mills.io/prologic/bitcask"
+	"go.mills.io/bitcask/v2"
 )
 
 // BitcaskStore ...
 type BitcaskStore struct {
-	db *bitcask.Bitcask
+	db bitcask.DB
 }
 
 // NewBitcaskStore ...

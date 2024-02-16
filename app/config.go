@@ -69,7 +69,7 @@ type Copyright struct {
 func DefaultConfig() *Config {
 	return &Config{
 		Library: []*PathConfig{
-			&PathConfig{
+			{
 				Path:                   "videos",
 				Prefix:                 "",
 				PreserveUploadFilename: false,
@@ -84,7 +84,7 @@ func DefaultConfig() *Config {
 			MaxUploadSize:          104857600,
 		},
 		Thumbnailer: &ThumbnailerConfig{
-			Timeout: 60,
+			Timeout:           60,
 			PositionFromStart: 3,
 		},
 		Transcoder: &TranscoderConfig{

@@ -21,7 +21,7 @@ import (
 	"git.mills.io/prologic/tube/templates"
 	"git.mills.io/prologic/tube/utils"
 
-	"github.com/cyphar/filepath-securejoin"
+	securejoin "github.com/cyphar/filepath-securejoin"
 	"github.com/dustin/go-humanize"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gorilla/handlers"
@@ -166,10 +166,10 @@ func (a *App) Run() error {
 		}
 		a.Watcher.Add(p.Path)
 	}
-	if _, err := os.Stat(a.Config.Server.UploadPath) ; err != nil && os.IsNotExist(err) {
+	if _, err := os.Stat(a.Config.Server.UploadPath); err != nil && os.IsNotExist(err) {
 		log.Warn(
 			fmt.Sprintf("app: upload path '%s' does not exist. Creating it now.",
-			a.Config.Server.UploadPath))
+				a.Config.Server.UploadPath))
 		if err := os.MkdirAll(a.Config.Server.UploadPath, 0o755); err != nil {
 			return fmt.Errorf(
 				"error creating upload path %s: %w",
@@ -221,8 +221,8 @@ func (a *App) indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func filenameWithoutExtension(path string) (stem string) {
-	var basename string = filepath.Base(path)
-	return basename[0:len(basename)-len(filepath.Ext(basename))]
+	basename := filepath.Base(path)
+	return basename[0 : len(basename)-len(filepath.Ext(basename))]
 }
 
 // HTTP handler for /upload
@@ -291,7 +291,7 @@ func (a *App) uploadHandler(w http.ResponseWriter, r *http.Request) {
 		// Here we set the final filename for the video file after transcoding.
 		var vf string
 		if a.Config.Server.PreserveUploadFilename ||
-		   a.Library.Paths[targetLibraryPath].PreserveUploadFilename {
+			a.Library.Paths[targetLibraryPath].PreserveUploadFilename {
 			vf, err = securejoin.SecureJoin(
 				a.Library.Paths[targetLibraryPath].Path,
 				fmt.Sprintf("%s.mp4", filenameWithoutExtension(handler.Filename)),
@@ -310,13 +310,13 @@ func (a *App) uploadHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		// If the (sanitized) original filename collides with an existing file,
 		// we try to add a shortuuid() to it until we find one that doesn't exist.
-		for _, err := os.Stat(vf) ; ! os.IsNotExist(err) ; _, err = os.Stat(vf) {
+		for _, err := os.Stat(vf); !os.IsNotExist(err); _, err = os.Stat(vf) {
 			if err != nil {
 				log.Error(err)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			log.Warn("File '"+ vf + "' already exists.");
+			log.Warn("File '" + vf + "' already exists.")
 			vf, err = securejoin.SecureJoin(
 				a.Library.Paths[targetLibraryPath].Path,
 				fmt.Sprintf("%s_%s.mp4", filenameWithoutExtension(vf), shortuuid.New()),
@@ -327,9 +327,8 @@ func (a *App) uploadHandler(w http.ResponseWriter, r *http.Request) {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			log.Warn("Using filename '" + vf + "' instead.");
+			log.Warn("Using filename '" + vf + "' instead.")
 		}
-
 
 		thumbFn1 := fmt.Sprintf("%s.jpg", strings.TrimSuffix(tf.Name(), filepath.Ext(tf.Name())))
 		thumbFn2 := fmt.Sprintf("%s.jpg", strings.TrimSuffix(vf, filepath.Ext(vf)))
@@ -792,7 +791,7 @@ func (a *App) thumbHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // HTTP handler for /feed.xml
-func (a *App) rssHandler(w http.ResponseWriter, r *http.Request) {
+func (a *App) rssHandler(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Cache-Control", "public, max-age=7776000")
 	w.Header().Set("Content-Type", "text/xml")
 	w.Write(a.Feed)
