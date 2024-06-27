@@ -19,24 +19,24 @@
     <meta property="og:video:url" content="/v/{{ $playing.ID }}.mp4">
     <meta property="og:video:secure_url" content="/v/{{ $playing.ID }}.mp4">
     <meta property="og:description" content="{{$playing.Description}}"/>
-    <meta property="og:site_name" content="Tube"/>
+    <meta property="og:site_name" content="TrixV"/>
     <meta property="og:url" content="/v/{{ $playing.ID }}"/>
     {{end}}
 
     {{ template "stylesheets" . }}
     {{ template "css" . }}
-    <title>Tube</title>
+    <title>TrixV</title>
   </head>
 <body>
   <nav>
-    <a href="/">Tube</a>
+    <a href="/">TrixV</a>
     <a class="centered" style="text-indent: 0;" href="/upload">Upload</a>
   </nav>
   <main>
     {{template "content" .}}
   </main>
   <footer>
-    <p><a href="https://git.mills.io/prologic/tube">Tube</a> is CopyRight © 2020 <a href="https://git.mills.io/prologic">James Mills / prologic</a>. All Rights Reserved.</p>
+    <p><a href="https://github.com/mohankumarpaluru">Matrix</a></p>
     {{if .Config.Copyright.Content}}<p>{{ $config.Copyright.Content }}</p>{{end}}
   </footer>
 </body>
