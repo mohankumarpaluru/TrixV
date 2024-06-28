@@ -19,25 +19,25 @@
     <meta property="og:video:url" content="/v/{{ $playing.ID }}.mp4">
     <meta property="og:video:secure_url" content="/v/{{ $playing.ID }}.mp4">
     <meta property="og:description" content="{{$playing.Description}}"/>
-    <meta property="og:site_name" content="TrixV"/>
+    <meta property="og:site_name" content="Trix-V"/>
     <meta property="og:url" content="/v/{{ $playing.ID }}"/>
     {{end}}
 
     {{ template "stylesheets" . }}
     {{ template "css" . }}
-    <title>TrixV</title>
+    <title>Trix-V</title>
   </head>
 <body>
   <nav>
-    <a href="/">TrixV</a>
+    <a href="/">Trix-V</a>
     <a class="centered" style="text-indent: 0;" href="/upload">Upload</a>
   </nav>
   <main>
     {{template "content" .}}
   </main>
   <footer>
-    <p><a href="https://github.com/mohankumarpaluru">Matrix</a></p>
-    {{if .Config.Copyright.Content}}<p>{{ $config.Copyright.Content }}</p>{{end}}
+    <p>Created with <a href="https://git.mills.io/prologic/tube">prologic/tube</a> by <a href="https://github.com/mohankumarpaluru">Matrix</a></p>
+    <p>A simple video hosting site for <a href="https://notes.trixtertempdrive.eu.org">Curiosity Chronicles</a></p>
   </footer>
 </body>
 {{ template "scripts" . }}
