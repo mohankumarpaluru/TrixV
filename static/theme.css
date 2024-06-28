@@ -529,11 +529,12 @@ footer {
 
 footer p {
   font-size: 12px;
+  color: var(--gray);
 }
 
 footer p a {
   text-decoration: underline;
-  color: var(--dark);
+  color: #808190;
   transition: .3s background-color;
 }
 
